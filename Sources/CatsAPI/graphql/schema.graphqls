@@ -1,0 +1,9 @@
+type Query {
+    cat: Cat
+}
+
+type Cat {
+    name: String
+    field1: Cat
+    field2: Cat
+}

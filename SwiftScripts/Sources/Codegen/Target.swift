@@ -6,6 +6,7 @@ enum Target {
   case gitHub
   case upload
   case animalKingdom
+  case cats
 
   init?(name: String) {
     switch name {
@@ -17,6 +18,8 @@ enum Target {
       self = .upload
     case "AnimalKingdom":
       self = .animalKingdom
+    case "Cats":
+      self = .cats
     default:
       return nil
     }
@@ -28,6 +31,7 @@ enum Target {
     case .gitHub: return "GitHubAPI"
     case .upload: return "UploadAPI"
     case .animalKingdom: return "AnimalKingdomAPI"
+    case .cats: return "CatsAPI"
     }
   }
 
@@ -46,6 +50,10 @@ enum Target {
         .apollo.childFolderURL(folderName: "Sources")
         .apollo.childFolderURL(folderName: moduleName)
     case .animalKingdom:
+      return sourceRootURL
+        .apollo.childFolderURL(folderName: "Sources")
+        .apollo.childFolderURL(folderName: moduleName)
+    case .cats:
       return sourceRootURL
         .apollo.childFolderURL(folderName: "Sources")
         .apollo.childFolderURL(folderName: moduleName)
@@ -96,6 +104,13 @@ enum Target {
 
       return ApolloCodegenConfiguration.FileInput(
         schemaPath: graphQLFolder.appendingPathComponent("AnimalSchema.graphqls").path,
+        searchPaths: [graphQLFolder.appendingPathComponent("**/*.graphql").path]
+      )
+    case .cats:
+      let graphQLFolder = targetRootURL.apollo.childFolderURL(folderName: "graphql")
+
+      return ApolloCodegenConfiguration.FileInput(
+        schemaPath: graphQLFolder.appendingPathComponent("schema.graphqls").path,
         searchPaths: [graphQLFolder.appendingPathComponent("**/*.graphql").path]
       )
     }
